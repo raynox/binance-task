@@ -1,3 +1,5 @@
+import { IsDateString } from 'class-validator';
+
 export interface TradingGateway {
   fetchMarketData(
     startTimestamp: number,
@@ -22,6 +24,11 @@ export type MarketData = [
 ];
 
 export class AnalyzeDataDto {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  @IsDateString()
   startDate: string;
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  @IsDateString()
   endDate: string;
 }

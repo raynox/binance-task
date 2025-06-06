@@ -31,6 +31,10 @@ describe('Cats', () => {
 
     return request(app.getHttpServer())
       .post('/trading/analyze')
+      .send({
+        startDate: '2025-05-01 12:00:00',
+        endDate: '2025-06-03 12:00:00',
+      })
       .expect(201)
       .expect({
         maxPriceAnalysis:
@@ -49,10 +53,30 @@ describe('Cats', () => {
 
     return request(app.getHttpServer())
       .post('/trading/analyze')
+      .send({
+        startDate: '2025-05-01 12:00:00',
+        endDate: '2025-06-03 12:00:00',
+      })
       .expect(409)
       .expect({
         statusCode: 409,
         message: 'Not enough data to analyze',
+      });
+  });
+
+  it(`/POST /analyze should throw an error when dates are not given`, () => {
+    mockedFetchMarketData.mockResolvedValue([mockedTradingData[0]]);
+
+    return request(app.getHttpServer())
+      .post('/trading/analyze')
+      .expect(400)
+      .expect({
+        message: [
+          'startDate must be a valid ISO 8601 date string',
+          'endDate must be a valid ISO 8601 date string',
+        ],
+        error: 'Bad Request',
+        statusCode: 400,
       });
   });
 

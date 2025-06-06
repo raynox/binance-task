@@ -5,6 +5,8 @@ import {
   HttpStatus,
   Inject,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { TradingService } from './trading.service';
 import { AnalyzeDataDto, TradingGateway } from './types';
@@ -20,6 +22,7 @@ export class TradingController {
   ) {}
 
   @Post('analyze')
+  @UsePipes(new ValidationPipe({ transform: true }))
   async analyzeTrading(@Body() analyzeDataDto: AnalyzeDataDto) {
     try {
       const startTimestamp = parseInt(
@@ -39,7 +42,6 @@ export class TradingController {
 
       return analysis;
     } catch (error) {
-      console.log(error);
       if (error instanceof Error) {
         throw new HttpException(error.message, HttpStatus.CONFLICT);
       }
