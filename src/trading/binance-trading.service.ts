@@ -30,7 +30,7 @@ export class BinanceTradingAnalysisService implements TradingAnalysisService {
       ...mappedMarketData.map((item) => new Decimal(item.highPrice).toNumber()),
     );
 
-    const lowPrice = Math.max(
+    const lowPrice = Math.min(
       ...mappedMarketData.map((item) => new Decimal(item.lowPrice).toNumber()),
     );
 
