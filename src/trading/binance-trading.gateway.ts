@@ -10,9 +10,9 @@ export class BinanceTradingGateway implements TradingGateway {
     private readonly configService: ConfigService,
   ) {}
 
-  async fetchMarketData() {
+  async fetchMarketData(startTimestamp: number, endTimestamp: number) {
     const response = await this.httpService.axiosRef.get<MarketDataResponse>(
-      `${this.configService.get('BINANCE_URL')}/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=10`,
+      `${this.configService.get('BINANCE_URL')}/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=10&startTime=${startTimestamp}&endTime=${endTimestamp}`,
     );
 
     return response.data;

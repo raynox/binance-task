@@ -1,5 +1,8 @@
 export interface TradingGateway {
-  fetchMarketData(): Promise<MarketData[]>;
+  fetchMarketData(
+    startTimestamp: number,
+    endTimestamp: number,
+  ): Promise<MarketData[]>;
 }
 
 export type MarketDataResponse = Array<MarketData>;
@@ -17,3 +20,8 @@ export type MarketData = [
   string,
   string,
 ];
+
+export class AnalyzeDataDto {
+  startDate: string;
+  endDate: string;
+}
