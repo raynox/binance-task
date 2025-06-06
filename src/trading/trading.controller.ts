@@ -8,15 +8,20 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { TradingService } from './trading.service';
-import { AnalyzeDataDto, TradingGateway } from './types';
+import {
+  AnalyzeDataDto,
+  TradingAnalysisService,
+  TradingGateway,
+} from './types';
 import { BinanceTradingGateway } from './binance-trading.gateway';
 import * as moment from 'moment';
+import { BinanceTradingAnalysisService } from './binance-trading.service';
 
 @Controller('trading')
 export class TradingController {
   constructor(
-    private readonly tradingService: TradingService,
+    @Inject(BinanceTradingAnalysisService)
+    private readonly tradingService: TradingAnalysisService,
     @Inject(BinanceTradingGateway)
     private readonly tradingGateway: TradingGateway,
   ) {}

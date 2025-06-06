@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TradingController } from './trading.controller';
 import { HttpModule } from '@nestjs/axios';
-import { TradingService } from './trading.service';
 import { BinanceTradingGateway } from './binance-trading.gateway';
+import { BinanceTradingAnalysisService } from './binance-trading.service';
 
 @Module({
   imports: [HttpModule],
   controllers: [TradingController],
-  providers: [TradingService, BinanceTradingGateway],
+  providers: [BinanceTradingGateway, BinanceTradingAnalysisService],
 })
 export class TradingModule {}

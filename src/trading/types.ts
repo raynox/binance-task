@@ -7,6 +7,15 @@ export interface TradingGateway {
   ): Promise<MarketData[]>;
 }
 
+export interface TradingAnalysisService {
+  analyzeTrading(marketData: MarketData[]): {
+    maxPriceAnalysis: string;
+    lowPriceAnalysis: string;
+    priceChange: string;
+    median: string;
+  };
+}
+
 export type MarketDataResponse = Array<MarketData>;
 export type MarketData = [
   number,

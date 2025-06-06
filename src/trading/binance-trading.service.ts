@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { MarketData } from './types';
+import { MarketData, TradingAnalysisService } from './types';
 import Decimal from 'decimal.js';
 import * as moment from 'moment';
 
 @Injectable()
-export class TradingService {
+export class BinanceTradingAnalysisService implements TradingAnalysisService {
   analyzeTrading(marketData: MarketData[]) {
     if (marketData.length <= 3) {
       throw new Error('Not enough data to analyze');
