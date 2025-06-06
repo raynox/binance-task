@@ -35,6 +35,8 @@ describe('Cats', () => {
           'The lowest price in date range: 2025-06-06T09:38:00+02:00 - 2025-06-06T09:47:59+02:00 is 103144.43',
         priceChange:
           'The price change in date range: 2025-06-06T09:38:00+02:00 - 2025-06-06T09:47:59+02:00: -69.67',
+        median:
+          'The price median in date range: 2025-06-06T09:38:00+02:00 - 2025-06-06T09:47:59+02:00: 154660.475',
       });
   });
 
