@@ -8,8 +8,10 @@ import { mockedTradingData } from './mocked-trading-data';
 
 describe('Cats', () => {
   let app: INestApplication;
+  const mockedFetchMarketData = jest.fn();
   const mockedBinanceTradingGateway: TradingGateway = {
-    fetchMarketData: () => Promise.resolve(mockedTradingData),
+    fetchMarketData: mockedFetchMarketData,
+    // fetchMarketData: () => Promise.resolve(mockedTradingData),
   };
 
   beforeAll(async () => {
@@ -24,7 +26,9 @@ describe('Cats', () => {
     await app.init();
   });
 
-  it(`/GET cats`, () => {
+  it(`/POST /analyze should analyze the trading data`, () => {
+    mockedFetchMarketData.mockResolvedValue(mockedTradingData);
+
     return request(app.getHttpServer())
       .post('/trading/analyze')
       .expect(201)
@@ -37,6 +41,18 @@ describe('Cats', () => {
           'The price change in date range: 2025-06-06T09:38:00+02:00 - 2025-06-06T09:47:59+02:00: -69.67',
         median:
           'The price median in date range: 2025-06-06T09:38:00+02:00 - 2025-06-06T09:47:59+02:00: 154660.475',
+      });
+  });
+
+  it(`/POST /analyze should throw an error when there are not enough data to analyze`, () => {
+    mockedFetchMarketData.mockResolvedValue([mockedTradingData[0]]);
+
+    return request(app.getHttpServer())
+      .post('/trading/analyze')
+      .expect(409)
+      .expect({
+        statusCode: 409,
+        message: 'Not enough data to analyze',
       });
   });
 

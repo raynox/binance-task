@@ -1,4 +1,10 @@
-import { Controller, Inject, Post } from '@nestjs/common';
+import {
+  Controller,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Post,
+} from '@nestjs/common';
 import { TradingService } from './trading.service';
 import { TradingGateway } from './types';
 import { BinanceTradingGateway } from './binance-trading.gateway';
@@ -13,9 +19,15 @@ export class TradingController {
 
   @Post('analyze')
   async analyzeTrading() {
-    const marketData = await this.tradingGateway.fetchMarketData();
-    const analysis = this.tradingService.analyzeTrading(marketData);
+    try {
+      const marketData = await this.tradingGateway.fetchMarketData();
+      const analysis = this.tradingService.analyzeTrading(marketData);
 
-    return analysis;
+      return analysis;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new HttpException(error.message, HttpStatus.CONFLICT);
+      }
+    }
   }
 }
